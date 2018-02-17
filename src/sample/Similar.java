@@ -56,6 +56,16 @@ public class Similar implements Runnable{
             }
         }
 
+        pairings.entrySet().removeIf(x -> x.getValue().size() < 2);
+        pairings.entrySet().removeIf(x -> {
+            for (Word word : x.getValue()){
+                if (word.getMode() == 2){
+                    return false;
+                }
+            }
+            return true;
+        });
+
         //add lists of lists of identical words into pairs list
         for (CharSequence key : pairings.keySet()){
             if (pairings.get(key).size() > 1){

@@ -120,7 +120,7 @@ public class Data{
         }
     }
 
-    public void read(File savefile){
+    public void load(File savefile){
         //reset all stats
         list.clear();
         page = 1;

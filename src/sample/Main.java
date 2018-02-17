@@ -8,19 +8,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class Main extends Application {
     private Text currentPage, currentRange;
     private ToggleGroup toggleGroup;
     private RadioButton n5, n4, n3, n2, n1;
-    private Button append, appendBlank, override, load, save, filter, altFilter, delete;
+    private Button append, appendBlank, override, load, save, filter, altFilter, delete, defaultLoad;
     private TextField overridePage, overrideRange1, overrideRange2, overridePronunciation;
     private TextArea textArea;
     private Data dataN1, dataN2, dataN3, dataN4, dataN5, currentData;
@@ -99,10 +98,32 @@ public class Main extends Application {
             //chooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("TXT Files (.txt)", "txt"));
             File saveFile = chooser.showOpenDialog(primaryStage);
             if (saveFile != null) {
-                currentData.read(saveFile);
+                currentData.load(saveFile);
                 updateStats();
                 textArea.clear();
             }
+        });
+
+        Button test = new Button("directory test");
+        test.setOnMouseClicked(event -> {
+            DirectoryChooser dirChooser = new DirectoryChooser();
+            System.out.println(dirChooser.showDialog(primaryStage));
+        });
+
+        defaultLoad = new Button("Load All");
+        defaultLoad.setOnMouseClicked(event -> {
+            n1.setSelected(true);
+            currentData.load(new File("/Users/gnotlasers/Downloads/13232/jlpt n1"));
+            n2.setSelected(true);
+            currentData.load(new File("/Users/gnotlasers/Downloads/13232/jlpt n2"));
+            n3.setSelected(true);
+            currentData.load(new File("/Users/gnotlasers/Downloads/13232/jlpt n3"));
+            n4.setSelected(true);
+            currentData.load(new File("/Users/gnotlasers/Downloads/13232/jlpt n4"));
+            n5.setSelected(true);
+            currentData.load(new File("/Users/gnotlasers/Downloads/13232/jlpt n5"));
+
+            updateStats();
         });
 
         save = new Button("Save...");
@@ -190,7 +211,8 @@ public class Main extends Application {
         root.getChildren().addAll(
                 currentPage, currentRange, 
                 n1, n2, n3, n4, n5, 
-                append, delete, load, save, filter, altFilter,
+                // append, delete, load, save, filter, altFilter, test,
+                altFilter, defaultLoad,
                 overridePage, overrideRange1, overrideRange2, overridePronunciation, override, 
                 textArea
         );
