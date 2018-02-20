@@ -5,6 +5,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -12,8 +15,11 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
+import java.util.prefs.Preferences;
 
 public class Main extends Application {
     private Text currentPage, currentRange;
@@ -211,7 +217,7 @@ public class Main extends Application {
         root.getChildren().addAll(
                 currentPage, currentRange, 
                 n1, n2, n3, n4, n5, 
-                // append, delete, load, save, filter, altFilter, test,
+                append, delete, load, save, filter, altFilter, test,
                 altFilter, defaultLoad,
                 overridePage, overrideRange1, overrideRange2, overridePronunciation, override, 
                 textArea
@@ -221,6 +227,11 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 750, 700));
         primaryStage.show();
+
+        FlowPane layout = new FlowPane();
+        layout.getChildren().addAll();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(layout, 600, 600));
     }
 
 

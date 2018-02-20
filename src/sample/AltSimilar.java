@@ -45,9 +45,36 @@ public class AltSimilar implements Runnable {
 
         List<SimilarSet> uniqueWords = makeSimilarSet(pairings, 2, true, false);
         uniqueWords = sortByList(uniqueWords, primaryList);
-        System.out.println(uniqueWords.size());
+        System.out.printf("\nAmount of unique words: %s", uniqueWords.size());
 
-//        //making inital N2-arranged hashtable
+        List<Word> temp = new ArrayList<>();
+        for (SimilarSet x : uniqueMeaning) {
+            temp.addAll(x.getIdenticals());
+        }
+        for (SimilarSet x : uniqueWords) {
+            temp.addAll(x.getIdenticals());
+        }
+        TreeMap<Integer, List<Word>> treeMap = new TreeMap<>();
+        temp.forEach(x -> {
+            if (treeMap.containsKey(x.getPage())){
+                treeMap.get(x.getPage()).add(x);
+            }else{
+                List<Word> list = new ArrayList<>();
+                list.add(x);
+                treeMap.put(x.getPage(), list);
+            }
+        });
+
+        List<Integer> temp1 = new ArrayList<>();
+        for (int i = 1; i < treeMap.lastKey(); i++) {
+            if (!treeMap.containsKey(i))
+                temp1.add(i);
+        }
+        List<String> formattedTemp1 = new ArrayList<>();
+
+        System.out.printf("\nPages: %s", temp1);
+
+//        //making initial N2-arranged hashtable
 //        TreeMap<Integer, Hashtable<String, List<Word>>> output = new TreeMap<>();
 //        primaryList.forEach(word -> {
 //            if (output.containsKey(word.getPage())) {
@@ -168,7 +195,7 @@ public class AltSimilar implements Runnable {
         List<String> fileOutput = new ArrayList<>();
 
         for (SimilarSet x : similarSets){
-            fileOutput.add(String.format("\n\nWord: %s\tPage: %s",
+            fileOutput.add(String.format("Word: %s\tPage: %s",
                     x.getWordString(),
                     x.getIdenticals().get(0).getPage()));
 
